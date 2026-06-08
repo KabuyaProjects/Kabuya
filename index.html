@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kabuya — Strategy, Finance & Investments</title>
+  <meta name="description" content="Senior strategic and financial advisory for technology-driven startups and scale-ups. Fundraising, interim CFO, M&A and investor readiness." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --sand: #F5F1EA; --sand-mid: #EAE5DA; --sand-border: #D8D3C8;
+      --sand-border-dark: #D0C9BB; --charcoal: #2C2A22; --gold: #C8A96A;
+      --gold-hover: #D4BB82; --text-muted: #6B6760; --text-nav: #B4AFA0;
+      --text-hero: #9E9A8E; --tag-text: #5A5650;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; background: var(--sand); color: var(--charcoal); min-height: 100vh; }
+    .serif { font-family: 'Playfair Display', Georgia, serif; }
+
+    nav {
+      background: var(--charcoal); display: flex; align-items: center;
+      justify-content: space-between; padding: 0 2.5rem; height: 60px;
+      position: sticky; top: 0; z-index: 100;
+    }
+    .logo { color: var(--sand); font-family: 'Playfair Display', serif; font-size: 19px; letter-spacing: 0.04em; cursor: pointer; }
+    .nav-links { display: flex; gap: 2rem; }
+    .nav-links button {
+      background: none; border: none; color: var(--text-nav); font-size: 13px;
+      font-family: 'Inter', sans-serif; font-weight: 400; cursor: pointer; padding: 6px 0;
+      letter-spacing: 0.03em; border-bottom: 1.5px solid transparent; transition: color 0.2s, border-color 0.2s;
+    }
+    .nav-links button:hover { color: var(--sand); }
+    .nav-links button.active { color: var(--sand); border-bottom-color: var(--gold); }
+
+    .page { display: none; }
+    .page.active { display: block; animation: fadein 0.3s ease; }
+    @keyframes fadein { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+    .hero { background: var(--charcoal); padding: 6rem 2.5rem 5rem; text-align: center; }
+    .eyebrow { font-size: 11px; letter-spacing: 0.15em; color: var(--gold); text-transform: uppercase; margin-bottom: 1.5rem; }
+    .hero h1 { font-family: 'Playfair Display', serif; font-size: 46px; font-weight: 400; color: var(--sand); line-height: 1.2; margin-bottom: 1.25rem; }
+    .hero p { font-size: 15px; color: var(--text-hero); max-width: 520px; margin: 0 auto 2.5rem; line-height: 1.8; font-weight: 300; }
+
+    .btn-primary {
+      display: inline-block; background: var(--gold); color: var(--charcoal); font-size: 12px;
+      font-weight: 500; padding: 13px 30px; border-radius: 2px; cursor: pointer;
+      letter-spacing: 0.06em; border: none; font-family: 'Inter', sans-serif;
+      text-transform: uppercase; transition: background 0.2s;
+    }
+    .btn-primary:hover { background: var(--gold-hover); }
+    .btn-primary:disabled { background: var(--text-nav); cursor: not-allowed; }
+    .btn-ghost {
+      display: inline-block; background: transparent; color: var(--sand); font-size: 12px;
+      font-weight: 400; padding: 13px 30px; border-radius: 2px; cursor: pointer;
+      letter-spacing: 0.06em; border: 1px solid rgba(245,241,234,0.25);
+      font-family: 'Inter', sans-serif; text-transform: uppercase; margin-left: 12px; transition: border-color 0.2s;
+    }
+    .btn-ghost:hover { border-color: rgba(245,241,234,0.6); }
+
+    .section { padding: 4.5rem 2.5rem; }
+    .section-label { font-size: 11px; letter-spacing: 0.15em; color: var(--gold); text-transform: uppercase; margin-bottom: 1rem; }
+    .section-title { font-family: 'Playfair Display', serif; font-size: 30px; font-weight: 400; color: var(--charcoal); margin-bottom: 1rem; }
+    .section-sub { font-size: 14px; color: var(--text-muted); line-height: 1.8; max-width: 540px; font-weight: 300; }
+
+    .services-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--sand-border); margin-top: 2.5rem; }
+    .service-card { background: var(--sand); padding: 2rem 1.75rem; }
+    .service-card .num { font-size: 11px; color: var(--gold); letter-spacing: 0.1em; margin-bottom: 0.75rem; }
+    .service-card h3 { font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 400; color: var(--charcoal); margin-bottom: 0.6rem; }
+    .service-card p { font-size: 13px; color: var(--text-muted); line-height: 1.75; font-weight: 300; }
+
+    .divider { height: 1px; background: var(--sand-border); margin: 0 2.5rem; }
+
+    .sector-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 1.5rem; }
+    .sector-tag { background: var(--sand-mid); color: var(--tag-text); font-size: 12px; padding: 6px 14px; border-radius: 2px; letter-spacing: 0.03em; }
+
+    .stat-row { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--sand-border); }
+    .stat-cell { background: var(--charcoal); padding: 2.25rem 1.5rem; text-align: center; }
+    .stat-cell .val { font-family: 'Playfair Display', serif; font-size: 30px; color: var(--gold); }
+    .stat-cell .lbl { font-size: 12px; color: var(--text-hero); margin-top: 5px; font-weight: 300; letter-spacing: 0.03em; }
+
+    .rate-table { margin-top: 2rem; width: 100%; border-collapse: collapse; }
+    .rate-table tr { border-bottom: 1px solid var(--sand-border); }
+    .rate-table td { padding: 13px 0; font-size: 14px; color: var(--charcoal); }
+    .rate-table td:last-child { text-align: right; color: var(--text-muted); font-weight: 300; }
+
+    .phase-list { margin-top: 2rem; }
+    .phase-item { display: flex; gap: 1.5rem; padding: 1.5rem 0; border-bottom: 1px solid var(--sand-border); }
+    .phase-item:last-child { border-bottom: none; }
+    .phase-num { font-family: 'Playfair Display', serif; font-size: 28px; color: var(--sand-border); flex-shrink: 0; width: 32px; }
+    .phase-title { font-family: 'Playfair Display', serif; font-size: 16px; color: var(--charcoal); margin-bottom: 4px; }
+    .phase-desc { font-size: 13px; color: var(--text-muted); line-height: 1.75; font-weight: 300; }
+
+    .quote-block { background: var(--sand-mid); border-left: 3px solid var(--gold); padding: 1.5rem 2rem; margin: 2.5rem 0; }
+    .quote-block p { font-family: 'Playfair Display', serif; font-size: 17px; color: var(--charcoal); font-style: italic; line-height: 1.65; }
+
+    /* ABOUT */
+    .about-hero { background: var(--charcoal); padding: 4rem 2.5rem; display: grid; grid-template-columns: 1fr 200px; gap: 3rem; align-items: center; }
+    .about-hero h1 { font-family: 'Playfair Display', serif; font-size: 36px; font-weight: 400; color: var(--sand); margin-bottom: 0.5rem; line-height: 1.2; }
+    .about-hero .role { font-size: 13px; color: var(--gold); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 1.25rem; }
+    .about-hero p { font-size: 14px; color: var(--text-hero); line-height: 1.8; font-weight: 300; max-width: 480px; }
+    .about-photo { width: 160px; height: 160px; border-radius: 2px; overflow: hidden; }
+    .about-photo img { width: 100%; height: 100%; object-fit: cover; }
+    .credentials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--sand-border); margin-top: 2.5rem; }
+    .cred-card { background: var(--sand); padding: 1.5rem; }
+    .cred-val { font-family: 'Playfair Display', serif; font-size: 26px; color: var(--charcoal); margin-bottom: 4px; }
+    .cred-label { font-size: 12px; color: var(--text-muted); font-weight: 300; line-height: 1.5; }
+    .career-list { margin-top: 0; }
+    .career-item { display: grid; grid-template-columns: 120px 1fr; gap: 1.5rem; padding: 1.5rem 0; border-bottom: 1px solid var(--sand-border); align-items: start; }
+    .career-item:last-child { border-bottom: none; }
+    .career-dates { font-size: 12px; color: var(--gold); font-weight: 400; letter-spacing: 0.03em; padding-top: 2px; }
+    .career-company { font-family: 'Playfair Display', serif; font-size: 15px; color: var(--charcoal); margin-bottom: 2px; }
+    .career-role { font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; }
+    .career-desc { font-size: 13px; color: var(--text-muted); line-height: 1.7; font-weight: 300; }
+    .linkedin-cta { background: var(--sand-mid); border-left: 3px solid var(--gold); padding: 1.25rem 1.75rem; display: flex; align-items: center; justify-content: space-between; margin-top: 2.5rem; }
+    .linkedin-cta p { font-size: 14px; color: var(--charcoal); }
+    .linkedin-cta a { display: inline-block; background: var(--charcoal); color: var(--sand); font-size: 12px; font-weight: 500; padding: 10px 22px; border-radius: 2px; text-decoration: none; letter-spacing: 0.06em; text-transform: uppercase; transition: background 0.2s; }
+    .linkedin-cta a:hover { background: #3e3b30; }
+
+    /* CONTACT */
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin-top: 2.5rem; align-items: start; }
+    .contact-form-area label { display: block; font-size: 12px; color: var(--text-muted); letter-spacing: 0.05em; margin-bottom: 6px; margin-top: 16px; text-transform: uppercase; }
+    .contact-form-area label:first-child { margin-top: 0; }
+    .contact-form-area input, .contact-form-area textarea, .contact-form-area select {
+      width: 100%; background: var(--sand-mid); border: 1px solid var(--sand-border-dark); border-radius: 2px;
+      padding: 10px 12px; font-size: 14px; font-family: 'Inter', sans-serif; color: var(--charcoal); outline: none; appearance: none; transition: border-color 0.2s;
+    }
+    .contact-form-area textarea { height: 110px; resize: none; }
+    .contact-form-area input:focus, .contact-form-area textarea:focus, .contact-form-area select:focus { border-color: var(--gold); }
+    .form-success { display: none; background: var(--sand-mid); border-left: 3px solid var(--gold); padding: 2rem; }
+    .form-success .fs-title { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--charcoal); margin-bottom: 8px; }
+    .form-success .fs-sub { font-size: 14px; color: var(--text-muted); line-height: 1.7; }
+    .form-error { display: none; background: #FCF0EE; border-left: 3px solid #C8634A; padding: 1rem 1.25rem; margin-top: 1rem; font-size: 13px; color: #7A3A28; line-height: 1.6; }
+    .ci-item { margin-bottom: 1.25rem; }
+    .ci-label { font-size: 11px; color: var(--gold); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 3px; }
+    .ci-val { font-size: 14px; color: var(--charcoal); }
+    .ci-note { margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--sand-border); font-size: 13px; color: var(--text-muted); line-height: 1.8; }
+
+    footer { background: var(--charcoal); padding: 1.5rem 2.5rem; display: flex; justify-content: space-between; align-items: center; }
+    footer span { font-size: 12px; color: var(--text-muted); font-weight: 300; }
+
+    .spinner { display: inline-block; width: 13px; height: 13px; border: 2px solid var(--charcoal); border-top-color: transparent; border-radius: 50%; animation: spin 0.7s linear infinite; vertical-align: middle; margin-right: 8px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    @media (max-width: 640px) {
+      nav { padding: 0 1.25rem; }
+      .nav-links { gap: 1rem; }
+      .hero { padding: 4rem 1.25rem 3rem; }
+      .hero h1 { font-size: 32px; }
+      .section { padding: 3rem 1.25rem; }
+      .services-grid, .credentials-grid { grid-template-columns: 1fr; }
+      .service-card[style*="grid-column"] { grid-column: span 1 !important; }
+      .about-hero { grid-template-columns: 1fr; }
+      .about-photo { display: none; }
+      .career-item { grid-template-columns: 1fr; gap: 4px; }
+      .contact-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .linkedin-cta { flex-direction: column; gap: 1rem; align-items: flex-start; }
+      .divider { margin: 0 1.25rem; }
+      footer { flex-direction: column; gap: 8px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <span class="logo" onclick="showPage('home')">Kabuya</span>
+  <div class="nav-links">
+    <button id="nav-home" class="active" onclick="showPage('home')">Home</button>
+    <button id="nav-about" onclick="showPage('about')">About</button>
+    <button id="nav-services" onclick="showPage('services')">Services</button>
+    <button id="nav-contact" onclick="showPage('contact')">Contact</button>
+  </div>
+</nav>
+
+<!-- HOME -->
+<div id="page-home" class="page active">
+  <div class="hero">
+    <div class="eyebrow">Strategy · Finance · Investments</div>
+    <h1 class="serif">Senior finance leadership<br>for technology companies</h1>
+    <p>Kabuya advises and supports technology-driven startups and scale-ups — from fundraising and investor readiness to interim CFO and M&amp;A.</p>
+    <button class="btn-primary" onclick="showPage('services')">Services</button>
+    <button class="btn-ghost" onclick="showPage('contact')">Get in touch</button>
+  </div>
+  <div class="section">
+    <div class="section-label">What we do</div>
+    <h2 class="section-title serif">Experienced guidance,<br>without the overhead</h2>
+    <p class="section-sub">Startups and scale-ups often need senior strategic and financial expertise before they can afford a full-time CFO. Kabuya fills that gap — pragmatic, execution-focused, and deeply embedded in the European tech ecosystem.</p>
+    <div class="services-grid">
+      <div class="service-card"><div class="num">01</div><h3>Fundraising &amp; Investor Readiness</h3><p>From first investor readiness check to closing — financial models, equity story, pitch support and process management.</p></div>
+      <div class="service-card"><div class="num">02</div><h3>Interim / Fractional CFO</h3><p>1–2 days per week or fulltime interim. Financial planning, board reporting, KPI development and investor communications.</p></div>
+      <div class="service-card"><div class="num">03</div><h3>M&amp;A &amp; Strategic Advisory</h3><p>Sell-side processes, due diligence, valuation and structuring — experienced senior guidance without an investment bank.</p></div>
+      <div class="service-card"><div class="num">04</div><h3>Services-for-Equity</h3><p>Selectively working with early-stage startups combining lower cash fees with equity — for teams with exceptional potential.</p></div>
+    </div>
+  </div>
+  <div class="divider"></div>
+  <div class="section" style="padding-bottom: 2rem;">
+    <div class="section-label">Sector focus</div>
+    <h2 class="section-title serif">Deep expertise in technology</h2>
+    <p class="section-sub">Focused on sectors with high complexity, long development cycles and meaningful growth potential.</p>
+    <div class="sector-row">
+      <span class="sector-tag">Deep-Tech</span><span class="sector-tag">Climate-Tech</span><span class="sector-tag">AI / Software Infrastructure</span><span class="sector-tag">Hardware</span><span class="sector-tag">Industrial Technology</span>
+    </div>
+  </div>
+  <div class="stat-row">
+    <div class="stat-cell"><div class="val">Seed–B</div><div class="lbl">Typical stage</div></div>
+    <div class="stat-cell"><div class="val">Europe</div><div class="lbl">Primary market</div></div>
+  </div>
+  <footer><span>Kabuya B.V. — Amsterdam</span><span>KvK: —</span></footer>
+</div>
+
+<!-- ABOUT -->
+<div id="page-about" class="page">
+  <div class="about-hero">
+    <div>
+      <div class="eyebrow" style="margin-bottom: 1rem;">Founder</div>
+      <h1>Alexander<br>van der Touw</h1>
+      <div class="role">CFO · Advisor · Investor</div>
+      <p>Educated as a computer scientist, with over 25 years in finance and investment roles at fast-growing, technology-driven companies. Started, funded and grown multiple businesses — including a successful exit to Meta.</p>
+    </div>
+    <div>
+      <div class="about-photo">
+        <img src="photo.jpg" alt="Alexander van der Touw" />
+      </div>
+    </div>
+  </div>
+
+  <div class="section" style="padding-bottom: 2rem;">
+    <div class="credentials-grid">
+      <div class="cred-card"><div class="cred-val">&gt; €40m</div><div class="cred-label">Raised in recent years across fundraising rounds</div></div>
+      <div class="cred-card"><div class="cred-val">9-digit</div><div class="cred-label">Exit transaction — led sale of Luxexcel to Meta</div></div>
+      <div class="cred-card"><div class="cred-val">25+ yrs</div><div class="cred-label">In tech startups, scale-ups and venture capital</div></div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="section" style="padding-top: 2.5rem; padding-bottom: 2rem;">
+    <div class="section-label">Background</div>
+    <h2 class="section-title serif">The person behind Kabuya</h2>
+    <p class="section-sub" style="max-width: 600px;">For 8 years I managed an early-stage Media and Technology VC fund, before moving into CFO roles at a series of high-growth technology companies. I'm particularly drawn to companies using technology to solve meaningful problems — deep-tech, climate, industrial transformation. I'm calm under pressure, analytical by training, and experienced in leading teams through complex and high-stakes moments.</p>
+  </div>
+
+  <div class="section" style="padding-top: 0;">
+    <div class="section-label">Career highlights</div>
+    <div class="career-list">
+      <div class="career-item">
+        <div class="career-dates">2026 – now</div>
+        <div><div class="career-company">DeltaQuad</div><div class="career-role">Business services (a.i.)</div><div class="career-desc">Defence-tech scale-up developing VTOL drones. Legal, financial and strategic support.</div></div>
+      </div>
+      <div class="career-item">
+        <div class="career-dates">2024 – 2025</div>
+        <div><div class="career-company">Thorizon</div><div class="career-role">CFO</div><div class="career-desc">Deep-tech nuclear energy scale-up (Molten Salt Reactor). Raised €16m, overhauled finance department and implemented full tool stack.</div></div>
+      </div>
+      <div class="career-item">
+        <div class="career-dates">2020 – 2023</div>
+        <div><div class="career-company">Luxexcel</div><div class="career-role">CFO</div><div class="career-desc">3D-printed smart lens pioneer. Raised €20m, led ERP implementation, and managed the full exit process to Meta — including strategy, due diligence and transaction management.</div></div>
+      </div>
+      <div class="career-item">
+        <div class="career-dates">2013 – 2020</div>
+        <div><div class="career-company">Interim &amp; Advisory</div><div class="career-role">CFO / Corporate Finance Advisor</div><div class="career-desc">Advised multiple technology scale-ups on fundraising, investor readiness and finance transformation. Access to Finance Specialist at EIT Digital, facilitating European scale-ups in rounds from €5m to €30m.</div></div>
+      </div>
+      <div class="career-item">
+        <div class="career-dates">2000 – 2013</div>
+        <div><div class="career-company">IN Venture Capital &amp; earlier roles</div><div class="career-role">Managing Director / CFO</div><div class="career-desc">8 years managing an early-stage Media &amp; Technology VC fund. Prior CFO and corporate finance roles across advertising, social media and strategy consulting.</div></div>
+      </div>
+    </div>
+    <div class="linkedin-cta">
+      <p>Full profile and career history on LinkedIn</p>
+      <a href="https://www.linkedin.com/in/alexandervandertouw/" target="_blank">View LinkedIn →</a>
+    </div>
+  </div>
+
+  <footer>
+    <span>Kabuya B.V. — Amsterdam</span>
+    <button class="btn-primary" style="font-size: 12px; padding: 9px 22px;" onclick="showPage('contact')">Get in touch</button>
+  </footer>
+</div>
+
+<!-- SERVICES -->
+<div id="page-services" class="page">
+  <div class="section" style="padding-bottom: 2rem;">
+    <div class="section-label">Services</div>
+    <h2 class="section-title serif">What Kabuya offers</h2>
+    <p class="section-sub">Senior, pragmatic and execution-focused — working alongside founders, investors and management teams at critical growth moments.</p>
+    <div class="quote-block"><p>"A senior operator, not a traditional consultant — combining strategic insight with hands-on execution."</p></div>
+    <div class="services-grid" style="margin-top: 0;">
+      <div class="service-card" style="grid-column: span 2;">
+        <div class="num">01 — Fundraising &amp; Investor Readiness</div>
+        <h3 style="font-size: 19px; margin-bottom: 0.75rem;">From preparation to closing</h3>
+        <p>Full support for Seed through Series B financing rounds. Includes investor readiness assessments, financial models and budgets, equity story development, pitch deck support, investor identification, process management, and support through due diligence and negotiations.</p>
+        <div class="sector-row" style="margin-top: 1rem;"><span class="sector-tag">Seed–Series B</span><span class="sector-tag">Deep-tech</span><span class="sector-tag">Climate-tech</span><span class="sector-tag">Venture-backed</span></div>
+      </div>
+      <div class="service-card"><div class="num">02 — Fractional CFO</div><h3>Finance leadership on demand</h3><p>From 1–2 days per week to a temporary fulltime role. Financial planning &amp; reporting, KPI development, cashflow management, board and investor reporting, and finance team building.</p></div>
+      <div class="service-card"><div class="num">03 — M&amp;A &amp; Strategy</div><h3>Strategic transactions</h3><p>Sell-side preparation and execution, financial and strategic due diligence, valuation, transaction structuring and negotiation, and identification of strategic partnerships.</p></div>
+      <div class="service-card"><div class="num">04 — Services-for-Equity</div><h3>Aligned for the long term</h3><p>A selective arrangement for early-stage startups with strong teams and differentiated technology — combining reduced cash fees with equity or options.</p></div>
+    </div>
+  </div>
+  <div class="divider"></div>
+  <div class="section" style="padding-top: 2.5rem;">
+    <div class="section-label">Pricing</div>
+    <h2 class="section-title serif">Transparent rate structure</h2>
+    <table class="rate-table">
+      <tr><td>Hourly rate</td><td>€100 – €150 / hour</td></tr>
+      <tr><td>Day rate</td><td>€800 – €1,200 / day</td></tr>
+      <tr><td>Monthly retainer (ongoing CFO support)</td><td>Fixed monthly fee</td></tr>
+      <tr><td>Milestone fees (fundraising / M&amp;A)</td><td>Upon agreement</td></tr>
+      <tr><td>Services-for-equity</td><td>Reduced cash + equity</td></tr>
+    </table>
+  </div>
+  <div class="divider"></div>
+  <div class="section" style="padding-top: 2.5rem;">
+    <div class="section-label">Long-term vision</div>
+    <h2 class="section-title serif">A clear path forward</h2>
+    <div class="phase-list">
+      <div class="phase-item"><div class="phase-num">1</div><div><div class="phase-title">Advisory practice</div><div class="phase-desc">Independent practice with recurring clients and a strong reputation in the European tech ecosystem.</div></div></div>
+      <div class="phase-item"><div class="phase-num">2</div><div><div class="phase-title">Boutique advisory</div><div class="phase-desc">Boutique strategic finance advisory with established client relationships and a selective equity portfolio.</div></div></div>
+      <div class="phase-item"><div class="phase-num">3</div><div><div class="phase-title">Platform</div><div class="phase-desc">A small specialised platform for startup finance and transactions — combining advisory with investments.</div></div></div>
+    </div>
+  </div>
+  <footer><span>Kabuya B.V. — Amsterdam</span><button class="btn-primary" style="font-size: 12px; padding: 9px 22px;" onclick="showPage('contact')">Get in touch</button></footer>
+</div>
+
+<!-- CONTACT -->
+<div id="page-contact" class="page">
+  <div class="section">
+    <div class="section-label">Contact</div>
+    <h2 class="section-title serif">Let's talk</h2>
+    <p class="section-sub">Whether you're preparing a fundraising round, need interim finance support, or want to explore working together — reach out.</p>
+    <div class="contact-grid">
+      <div class="contact-form-area">
+        <div id="form-wrap">
+          <label>Name</label><input type="text" id="f-name" placeholder="Your name" />
+          <label>Company</label><input type="text" id="f-company" placeholder="Company name" />
+          <label>Subject</label>
+          <select id="f-subject">
+            <option>Fundraising &amp; Investor Readiness</option>
+            <option>Interim / Fractional CFO</option>
+            <option>M&amp;A &amp; Strategic Advisory</option>
+            <option>Services-for-Equity</option>
+            <option>Other</option>
+          </select>
+          <label>Message</label>
+          <textarea id="f-message" placeholder="Brief description of what you're working on..."></textarea>
+          <div style="margin-top: 1.25rem;"><button class="btn-primary" id="submit-btn" onclick="submitForm()">Send message</button></div>
+          <div class="form-error" id="form-error"></div>
+        </div>
+        <div class="form-success" id="form-success">
+          <div class="fs-title">Message sent</div>
+          <div class="fs-sub">Thank you for reaching out. You'll hear back within a couple of business days.</div>
+        </div>
+      </div>
+      <div class="contact-info">
+        <div class="ci-item"><div class="ci-label">Location</div><div class="ci-val">Amsterdam, Netherlands</div></div>
+        <div class="ci-item"><div class="ci-label">Entity</div><div class="ci-val">Kabuya B.V.</div></div>
+        <div class="ci-item"><div class="ci-label">LinkedIn</div><div class="ci-val"><a href="https://www.linkedin.com/in/alexandervandertouw/" target="_blank" style="color: var(--gold); text-decoration: none;">linkedin.com/in/alexandervandertouw</a></div></div>
+        <div class="ci-note">Kabuya primarily works with technology-driven startups and scale-ups between Seed and Series B. Typical engagements start with a short introductory call.</div>
+      </div>
+    </div>
+  </div>
+  <footer><span>Kabuya B.V. © 2026</span><span>Strategy, Finance &amp; Investments</span></footer>
+</div>
+
+<script>
+  function showPage(id) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-links button').forEach(b => b.classList.remove('active'));
+    document.getElementById('page-' + id).classList.add('active');
+    document.getElementById('nav-' + id).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  async function submitForm() {
+    const name = document.getElementById('f-name').value.trim();
+    const company = document.getElementById('f-company').value.trim();
+    const subject = document.getElementById('f-subject').value;
+    const message = document.getElementById('f-message').value.trim();
+    const btn = document.getElementById('submit-btn');
+    const errorEl = document.getElementById('form-error');
+    errorEl.style.display = 'none';
+    if (!name || !message) {
+      errorEl.style.display = 'block';
+      errorEl.textContent = 'Please fill in at least your name and message.';
+      return;
+    }
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span>Sending…';
+    try {
+      // Replace YOUR_FORM_ID with your Formspree form ID (e.g. xabcdefg)
+      const res = await fetch('https://formspree.io/f/YOUR_FORM_ID', {
+        method: 'POST',
+        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, company, subject, message })
+      });
+      if (res.ok) {
+        document.getElementById('form-wrap').style.display = 'none';
+        document.getElementById('form-success').style.display = 'block';
+      } else throw new Error();
+    } catch (e) {
+      btn.disabled = false;
+      btn.textContent = 'Send message';
+      errorEl.style.display = 'block';
+      errorEl.textContent = 'Something went wrong — please try again or reach out via LinkedIn.';
+    }
+  }
+</script>
+
+</body>
+</html>
