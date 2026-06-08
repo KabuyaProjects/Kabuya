@@ -332,6 +332,7 @@
       <div class="contact-form-area">
         <div id="form-wrap">
           <label>Name</label><input type="text" id="f-name" placeholder="Your name" />
+          <label>Email</label><input type="email" id="f-email" placeholder="your@email.com" />
           <label>Company</label><input type="text" id="f-company" placeholder="Company name" />
           <label>Subject</label>
           <select id="f-subject">
@@ -373,6 +374,7 @@
 
   async function submitForm() {
     const name = document.getElementById('f-name').value.trim();
+    const email = document.getElementById('f-email').value.trim();
     const company = document.getElementById('f-company').value.trim();
     const subject = document.getElementById('f-subject').value;
     const message = document.getElementById('f-message').value.trim();
@@ -391,7 +393,7 @@
       const res = await fetch('https://formspree.io/f/meewgvge', {
         method: 'POST',
         headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, company, subject, message })
+        body: JSON.stringify({ name, email, company, subject, message })
       });
       if (res.ok) {
         document.getElementById('form-wrap').style.display = 'none';
